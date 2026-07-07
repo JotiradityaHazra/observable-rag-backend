@@ -1,6 +1,6 @@
 import os
 
-from phoenix.otel import register
+# from phoenix.otel import register
 
 from app.core.config import (
     PHOENIX_API_KEY,
@@ -27,15 +27,15 @@ def initialize_telemetry():
         os.environ["OPENINFERENCE_HIDE_INPUTS"] = "true"
         os.environ["OPENINFERENCE_HIDE_OUTPUTS"] = "true"
 
-    tracer_provider = register(
-        endpoint=PHOENIX_COLLECTOR_ENDPOINT,
-        project_name=PHOENIX_PROJECT_NAME,
-        batch=PHOENIX_BATCH_EXPORT,
-        auto_instrument=True,
-        api_key=PHOENIX_API_KEY,
-        protocol=PHOENIX_PROTOCOL,
-        verbose=False,
-    )
+    # tracer_provider = register(
+    #     endpoint=PHOENIX_COLLECTOR_ENDPOINT,
+    #     project_name=PHOENIX_PROJECT_NAME,
+    #     batch=PHOENIX_BATCH_EXPORT,
+    #     auto_instrument=True,
+    #     api_key=PHOENIX_API_KEY,
+    #     protocol=PHOENIX_PROTOCOL,
+    #     verbose=False,
+    # )
 
     return tracer_provider
 

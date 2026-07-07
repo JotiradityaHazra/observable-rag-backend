@@ -36,6 +36,10 @@ async def ingest_pdf(
         exist_ok=True
     )
 
+    if not file.filename:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="No file was selected for upload.")
+
     # Save uploaded file temporarily for processing
     file_path = f"uploads/{file.filename}"
 
