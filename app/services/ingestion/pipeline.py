@@ -1,5 +1,6 @@
 from pathlib import Path
 
+# pyrefly: ignore [missing-import]
 from openinference.semconv.trace import OpenInferenceSpanKindValues
 
 from app.services.ingestion.loader import load_pdf

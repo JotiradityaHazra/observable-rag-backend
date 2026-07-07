@@ -1,6 +1,8 @@
 import logging
 import time
+# pyrefly: ignore [missing-import]
 from pypdf import PdfReader
+# pyrefly: ignore [missing-import]
 from google import genai
 from app.core.config import GEMINI_API_KEY
 
@@ -14,8 +16,7 @@ def load_pdf_with_gemini(file_path: str) -> str:
         raise ValueError("No Gemini API key configured.")
 
     client = genai.Client(
-        api_key=GEMINI_API_KEY,
-        http_options={'timeout': 600.0}
+        api_key=GEMINI_API_KEY
     )
     
     file_path = os.path.abspath(file_path)

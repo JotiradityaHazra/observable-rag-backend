@@ -65,6 +65,28 @@ The focus is not only generating answers, but understanding **why** a document w
 
 ---
 
+# 🎉 The Journey of Building This Update
+
+We built this update by tackling real-world problems one by one. Here is the story of how we evolved the system across four major features:
+
+## 🧩 1. The Segmentation Problem (Semantic Chunking)
+**The Story:** We started by testing how the system broke down documents into searchable pieces. At first, we used a standard "character chunker", which blindly cut the text every 1,000 characters. We realized this was awful because it would slice sentences in half and separate related concepts! 
+**The Solution:** We improved it by implementing a **Semantic Chunker**. By introducing `tiktoken` and changing the default chunking strategy to `"semantic"`, the system now intelligently groups text by sentences and logical paragraphs so the AI never loses the context.
+
+## 👁️ 2. The Blind AI Problem (Gemini Vision OCR)
+**The Story:** Once chunking was fixed, we tested the RAG system by uploading a real-world PDF (`Kubernetes.pdf`). We quickly noticed a massive flaw: the document was full of architecture diagrams and charts, but the RAG system couldn't answer any questions about them because standard PDF readers are completely blind to pictures!
+**The Solution:** We threw out the standard reader and integrated **Google Gemini Vision AI** directly into the ingestion pipeline. Now, the AI physically looks at the PDF, "sees" the charts, and writes out detailed markdown descriptions for them so they can be searched! *(We also added a safety net to fall back to the old reader if your API key is missing).*
+
+## 🧠 3. The Hallucination Problem (Prompt Engineering)
+**The Story:** With the AI now able to "see" charts and read smart chunks, we noticed a new issue during testing: the AI assistant would sometimes get overconfident and try to guess answers using its own background knowledge instead of sticking strictly to the PDF we provided!
+**The Solution:** We went into the prompt builder and laid down the law. The AI is now strictly commanded to answer *only* from the text and to admit *"I cannot answer this"* if it doesn't know. We also forced it to perform a "Chain-of-Thought" exercise internally before answering, which massively improved its reasoning accuracy.
+
+## 🧪 4. The "Ghost User" Testing Pipeline
+**The Story:** Finally, we needed a way to prove that all these new pieces (Semantic Chunking, Vision OCR, and the strict Prompts) actually worked together from start to finish. Instead of forcing developers to manually upload PDFs using clunky API tools like Postman to test it...
+**The Solution:** We built an automated "Ghost User" directly into the project (`test_pipeline.py`). This script acts exactly like a real human: it automatically connects to the server, uploads `Kubernetes.pdf`, waits for the Gemini Vision extraction, and fires back a question (*"What is Kubernetes?"*). By running this one script, you instantly verify the entire lifecycle of the application!
+
+---
+
 # Features
 
 ## Document Ingestion
