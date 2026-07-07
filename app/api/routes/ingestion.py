@@ -27,7 +27,7 @@ ingest_router = APIRouter()
 @ingest_router.post("/ingest")
 async def ingest_pdf(
     file: UploadFile = File(...),
-    chunk_strategy: Annotated[str, Form()] = "character"
+    chunk_strategy: Annotated[str, Form()] = "semantic"
 ):
 
     # Create uploads directory if it does not exist
@@ -60,7 +60,7 @@ async def ingest_pdf(
 @ingest_router.post("/ingest/folder")
 def ingest_folder(
     clear_existing: bool = False,
-    chunk_strategy: str = "character"
+    chunk_strategy: str = "semantic"
 ):
 
     if clear_existing:
